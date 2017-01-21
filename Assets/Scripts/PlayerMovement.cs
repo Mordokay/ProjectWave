@@ -6,12 +6,17 @@ public class PlayerMovement : MonoBehaviour {
 
     private Rigidbody2D rigidB;
 
-
 	// Use this for initialization
 	void Start () {
-        rigidB = gameObject.GetComponent<Rigidbody2D>();	
+        rigidB = gameObject.GetComponent<Rigidbody2D>();
 	}
-	
+
+    private void Update()
+    {
+        Camera.main.transform.position = gameObject.transform.position + new Vector3(0,0, -10);
+    }
+
+   
 	// Update is called once per frame
 	void FixedUpdate () {
         
