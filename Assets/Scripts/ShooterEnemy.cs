@@ -40,7 +40,6 @@ public class ShooterEnemy : MonoBehaviour {
         else if (onSight)
         {
             onSight = false;
-            Debug.Log(-(target.transform.position - transform.position).normalized * speed);
             this.GetComponent<Rigidbody2D>().velocity = -(target.transform.position - transform.position).normalized * speed;
         }
     }

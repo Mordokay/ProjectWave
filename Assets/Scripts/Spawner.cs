@@ -22,7 +22,8 @@ public class Spawner : MonoBehaviour {
     {
         public GameObject specificObject;
         public float speed;
-        public float probability;
+        public float minProbability;
+        public float maxProbability;
     }
 
     void Start()
@@ -38,30 +39,24 @@ public class Spawner : MonoBehaviour {
 
         if (elapsedTime > timeToNextSpawn)
         {
-            int spawnableIndex;
-            while (true) {
-                float rand = Random.Range(0.0f, 1.0f);
-                spawnableIndex = Random.Range(0, mySpawnables.Count);
-                if (mySpawnables[spawnableIndex].probability >= rand)
-                    break;
-            }
-            
-            GameObject myEnemy = Instantiate(mySpawnables[spawnableIndex].specificObject) as GameObject;
-            spawnPoint myPoint = mySpawns[Random.Range(0, mySpawns.Count)];
-            myEnemy.transform.position = myPoint.originPoint.position;
+            float randomProb = Random.Range(0.0f, 1.0f);
 
-            float spd = 0;
-            foreach(SceneObject go in mySpawnables)
+            foreach(SceneObject obj in mySpawnables)
             {
-                if(go.specificObject == myEnemy)
+                if(randomProb >= obj.minProbability && randomProb < obj.maxProbability)
                 {
-                    spd = go.speed;
+                    GameObject myEnemy = Instantiate(obj.specificObject) as GameObject;
+                    spawnPoint myPoint = mySpawns[Random.Range(0, mySpawns.Count)];
+
+                    myEnemy.transform.position = myPoint.originPoint.position;
+
+                    myEnemy.GetComponent<Rigidbody2D>().velocity = (myPoint.directionPoint.position - myPoint.originPoint.position).normalized * obj.speed;
+                    elapsedTime = 0.0f;
+
                     break;
                 }
             }
-
-            myEnemy.GetComponent<Rigidbody2D>().velocity = (myPoint.directionPoint.position - myPoint.originPoint.position).normalized * spd;
-            elapsedTime = 0.0f;
+            
         }
     }
 
