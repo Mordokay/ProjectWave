@@ -53,7 +53,7 @@ public class PlayerRange : MonoBehaviour
             {
                 Ammo.GetComponent<Expelir>().isFired = true;
                 Vector2 vec = Ammo.transform.position - gameObject.transform.position;
-                Ammo.GetComponent<Rigidbody2D>().AddForce(vec * 15000);
+                Ammo.GetComponent<Rigidbody2D>().AddForce(vec * 45000);
                 Ammo = null;
             }
             

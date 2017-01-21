@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
     private Rigidbody2D rigidB;
+    public float maxVelocity;
 
 	// Use this for initialization
 	void Start () {
@@ -20,22 +21,22 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
         
-		if(Input.GetKey("w") && rigidB.velocity.y < 4)
+		if(Input.GetKey("w") && rigidB.velocity.y < maxVelocity)
         {
             rigidB.AddForce(Vector2.up * 40);
         }
 
-        if (Input.GetKey("s") && rigidB.velocity.y > -4)
+        if (Input.GetKey("s") && rigidB.velocity.y > -maxVelocity)
         {
             rigidB.AddForce(Vector2.up * -40);
         }
 
-        if (Input.GetKey("a") && rigidB.velocity.x > -4)
+        if (Input.GetKey("a") && rigidB.velocity.x > -maxVelocity)
         {
             rigidB.AddForce(Vector2.right * -40);
         }
 
-        if (Input.GetKey("d") && rigidB.velocity.x < 4)
+        if (Input.GetKey("d") && rigidB.velocity.x < maxVelocity)
         {
             rigidB.AddForce(Vector2.right * 40);
         }

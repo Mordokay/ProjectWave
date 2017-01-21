@@ -18,8 +18,14 @@ public class DamageDetector : MonoBehaviour {
             Destroy(col.gameObject);
             stats.life -= 20.0f;
         }
+        else if (col.gameObject.tag == "Bullet")
+        {
+            Destroy(col.gameObject);
+            stats.life -= 5.0f;
+        }
     }
 
+    /*
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Bullet")
@@ -28,7 +34,7 @@ public class DamageDetector : MonoBehaviour {
             stats.life -= 5.0f;
         }
     }
-
+    */
 	
 	
 	// Update is called once per frame

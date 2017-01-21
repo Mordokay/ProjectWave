@@ -14,7 +14,7 @@ public class ShooterEnemy : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        InvokeRepeating("LaunchProjectile", 0.0f, 0.5f);
+        InvokeRepeating("LaunchProjectile", 0.0f, 1.0f);
         target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -33,9 +33,12 @@ public class ShooterEnemy : MonoBehaviour {
 
     void LaunchProjectile()
     {
-        //TODO Shuold only launch when its close to the player
-        GameObject myBullet = Instantiate(bullet);
-        myBullet.transform.position = bulletSpawnPoint.position;
-        myBullet.GetComponent<Rigidbody2D>().velocity = (target.position - transform.position).normalized * bulletSpeed;
+        if (Vector3.Distance(target.position, this.transform.position) < distance * 1.5f)
+        {
+            //TODO Shuold only launch when its close to the player
+            GameObject myBullet = Instantiate(bullet);
+            myBullet.transform.position = bulletSpawnPoint.position;
+            myBullet.GetComponent<Rigidbody2D>().velocity = (target.position - transform.position).normalized * bulletSpeed;
+        }
     }
 }
