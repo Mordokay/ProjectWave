@@ -29,16 +29,19 @@ public class PlayerRange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Ammo != null)
+        if (!stats.powerOnCooldown)
         {
-            stats.DecreaseHoldPower();
-        }
-        else if (isPressing)
-        {
-            stats.DecreasePower();
+            if (Ammo != null)
+            {
+                stats.DecreaseHoldPower();
+            }
+            else if (isPressing)
+            {
+                stats.DecreasePower();
+            }
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !stats.powerOnCooldown)
         {
             isPressing = true;
             this.GetComponent<SpriteRenderer>().enabled = true;
@@ -47,6 +50,8 @@ public class PlayerRange : MonoBehaviour
         }
         else
         {
+            stats.checkPower();
+
             distortion.SetActive(false);
             this.GetComponent<PolygonCollider2D>().enabled = false;
             this.GetComponent<SpriteRenderer>().enabled = false;
@@ -60,7 +65,7 @@ public class PlayerRange : MonoBehaviour
                 }
                 else
                 {
-                    Ammo.GetComponent<EnemyMovement>().isAmmo = false;
+                    Ammo.GetComponent<MineController>().isAmmo = false;
                 }
                 Vector2 vec = Ammo.transform.position - gameObject.transform.position;
                 Ammo.GetComponent<Rigidbody2D>().AddForce(vec * 45000);
@@ -80,13 +85,11 @@ public class PlayerRange : MonoBehaviour
         if (collision.tag == "Mine" && isPressing)
         {
             isMine = false;
-            collision.gameObject.GetComponent<EnemyMovement>().isAmmo = false;
+            collision.gameObject.GetComponent<MineController>().isAmmo = false;
             Ammo = null;
         }
 
     }
-
-
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -96,6 +99,7 @@ public class PlayerRange : MonoBehaviour
             if (Vector2.Distance(collision.gameObject.transform.position, gameObject.transform.position) <= 1.0f)
             {
                 Destroy(collision.gameObject);
+                stats.score += 500;
             }
             collision.transform.position = Vector2.Lerp(collision.transform.position, gameObject.transform.position, 6 * Time.deltaTime);
         }
@@ -125,7 +129,7 @@ public class PlayerRange : MonoBehaviour
                 if (Vector2.Distance(collision.transform.position, gameObject.transform.position) <= 0.4f)
                 {
                     collision.transform.position = RangeCenter.position;
-                    collision.gameObject.GetComponent<EnemyMovement>().isAmmo = true;
+                    collision.gameObject.GetComponent<MineController>().isAmmo = true;
                     isMine = true;
                     Ammo = collision.gameObject;
                 }

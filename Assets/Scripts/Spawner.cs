@@ -29,7 +29,6 @@ public class Spawner : MonoBehaviour {
     void Start()
     {
         elapsedTime = 999.0f;
-        timeToNextSpawn = 2.0f;
         InvokeRepeating("DecreaseSpawnTime", 0.0f, 3.0f);
     }
 

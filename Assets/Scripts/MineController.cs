@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour {
+public class MineController : MonoBehaviour {
 
     private Transform target;
     public float speed;
     public float minDistance;
     private float range;
     private Vector3 direction;
+    private GameObject explosionParticle;
 
     public bool isAmmo = false;
 
     // Use this for initialization
     void Start () {
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        explosionParticle = Resources.Load("Explosion") as GameObject;
+
         InvokeRepeating("Wander", 0.0f, 5.0f);
     }
 
@@ -35,6 +38,31 @@ public class EnemyMovement : MonoBehaviour {
             }
         }
         
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        //TODO Expelir should make a rock particle explosion
+        if (col.gameObject.tag == "ShooterEnemy" || col.gameObject.tag == "Bullet" || col.gameObject.tag == "Mine" || col.gameObject.tag == "Expelir")
+        {
+            Destroy(col.gameObject);
+            GameObject myParticle = Instantiate(explosionParticle);
+            myParticle.transform.position = col.contacts[0].point;
+            Destroy(myParticle, 5.0f);
+            Destroy(this.gameObject);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "ShooterEnemy" || col.gameObject.tag == "Bullet" || col.gameObject.tag == "Mine")
+        {
+            Destroy(col.gameObject);
+            GameObject myParticle = Instantiate(explosionParticle);
+            myParticle.transform.position = this.transform.position;
+            Destroy(myParticle, 5.0f);
+            Destroy(this.gameObject);
+        }
     }
 
     void Wander()

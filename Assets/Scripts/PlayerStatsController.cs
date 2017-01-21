@@ -18,6 +18,7 @@ public class PlayerStatsController : MonoBehaviour {
     public GameObject powerBar;
     public Text scoreText;
 
+    public bool powerOnCooldown;
 
     void Start () {
         score = 0;
@@ -26,6 +27,7 @@ public class PlayerStatsController : MonoBehaviour {
 	
     public void DecreasePower()
     {
+        powerOnCooldown = false;
         power -= Time.deltaTime * powerDecreaseFactor;
     }
 
@@ -34,7 +36,21 @@ public class PlayerStatsController : MonoBehaviour {
         power -= Time.deltaTime * powerDecreaseHoldFactor;
     }
 
+    public void checkPower()
+    {
+        if(power < 25)
+        {
+            powerOnCooldown = true;
+        }
+    }
+
     void Update () {
+
+        if(power > 25)
+        {
+            powerOnCooldown = false;
+        }
+
         scoreText.text = "SCORE: " + score;
 
         healthBar.GetComponent<Image>().fillAmount = life / 100.0f;
@@ -45,5 +61,10 @@ public class PlayerStatsController : MonoBehaviour {
 
         power = Mathf.Clamp(power, 0.0f, 100.0f);
         life = Mathf.Clamp(life, 0.0f, 100.0f);
+
+        if (power == 0.0f)
+        {
+            powerOnCooldown = true;
+        }
     }
 }
