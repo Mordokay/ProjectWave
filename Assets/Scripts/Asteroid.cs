@@ -9,6 +9,8 @@ public class Asteroid : MonoBehaviour {
 
     private Vector3 movePosition;
 
+    public int life = 5;
+
 	// Use this for initialization
 	void Start () {
         movePosition = gameObject.transform.position;
@@ -26,37 +28,43 @@ public class Asteroid : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Expelir" && collision.gameObject.GetComponent<Expelir>().isFired)
+        
+        if(collision.gameObject.tag == "Expelir" && collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 2.0f)
         {
+            
             //float scale = transform.localScale.x * 0.8f;
             //transform.localScale = new Vector3(scale, scale, scale);
-
-
-            if(transform.localScale.x * 0.6f > 0.5f)
+            if(life < 1)
             {
-                Vector2 randomPos = Random.insideUnitCircle * 1;
-                GameObject newAsteroid1 = Instantiate(asteroidPrefab, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
-                float scale = transform.localScale.x * 0.6f;
-                newAsteroid1.transform.localScale = new Vector3(scale, scale, scale);
+                if (transform.localScale.x * 0.6f > 0.5f)
+                {
+                    Vector2 randomPos = Random.insideUnitCircle * 1;
+                    GameObject newAsteroid1 = Instantiate(asteroidPrefab, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                    float scale = transform.localScale.x * 0.6f;
+                    newAsteroid1.transform.localScale = new Vector3(scale, scale, scale);
 
-                randomPos = Random.insideUnitCircle * 1;
-                GameObject newAsteroid2 = Instantiate(asteroidPrefab, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
-                scale = transform.localScale.x * 0.6f;
-                newAsteroid2.transform.localScale = new Vector3(scale, scale, scale);
+                    randomPos = Random.insideUnitCircle * 1;
+                    GameObject newAsteroid2 = Instantiate(asteroidPrefab, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                    scale = transform.localScale.x * 0.6f;
+                    newAsteroid2.transform.localScale = new Vector3(scale, scale, scale);
+                }
+                else
+                {
+                    Vector2 randomPos = Random.insideUnitCircle * 1;
+                    GameObject newAsteroid1 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+
+                    randomPos = Random.insideUnitCircle * 1;
+                    GameObject newAsteroid2 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+
+                }
+
+
+                Destroy(gameObject);
             }
             else
             {
-                Vector2 randomPos = Random.insideUnitCircle * 1;
-                GameObject newAsteroid1 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
-                
-                randomPos = Random.insideUnitCircle * 1;
-                GameObject newAsteroid2 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
-                
+                life--;
             }
-
-            collision.gameObject.GetComponent<Expelir>().isFired = false;
-
-            Destroy(gameObject);
         }
     }
 }
