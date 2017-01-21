@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
 
-    public Transform target;
+    private Transform target;
     public float speed;
     public float minDistance;
     private float range;
 
     // Use this for initialization
     void Start () {
-
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShooterEnemy : MonoBehaviour {
 
-    public Transform target;
+    private Transform target;
     public float speed;
     public float distance;
     private float range;
@@ -15,7 +15,8 @@ public class ShooterEnemy : MonoBehaviour {
     // Use this for initialization
     void Start () {
         InvokeRepeating("LaunchProjectile", 0.0f, 0.5f);
-	}
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -32,6 +33,7 @@ public class ShooterEnemy : MonoBehaviour {
 
     void LaunchProjectile()
     {
+        //TODO Shuold only launch when its close to the player
         GameObject myBullet = Instantiate(bullet);
         myBullet.transform.position = bulletSpawnPoint.position;
         myBullet.GetComponent<Rigidbody2D>().velocity = (target.position - transform.position).normalized * bulletSpeed;
