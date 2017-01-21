@@ -5,20 +5,31 @@ using UnityEngine;
 [System.Serializable]
 public class Spawner : MonoBehaviour {
 
-    float timeToNextSpawn;
+    public float timeToNextSpawn;
     float elapsedTime;
-    float spawnDecreaseTimeRatio;
+    public float spawnDecreaseTimeRatio;
     public List<spawnPoint> mySpawns;
 
-    public List<GameObject> mySpawnables;
+    //public List<GameObject> mySpawnables;
+
+    public List<SceneObject> mySpawnables;
 
     public float speedMinVal;
     public float speedMaxVal;
 
+    [System.Serializable]
+    public class SceneObject
+    {
+        public GameObject specificObject;
+        public float speed;
+        public float probability;
+    }
+
     void Start()
     {
         elapsedTime = 999.0f;
-        timeToNextSpawn = 0.5f;
+        timeToNextSpawn = 2.0f;
+        InvokeRepeating("DecreaseSpawnTime", 0.0f, 3.0f);
     }
 
     void Update()
@@ -27,10 +38,29 @@ public class Spawner : MonoBehaviour {
 
         if (elapsedTime > timeToNextSpawn)
         {
-            GameObject myEnemy = Instantiate(mySpawnables[Random.Range(0, mySpawnables.Count)]) as GameObject;
+            int spawnableIndex;
+            while (true) {
+                float rand = Random.Range(0.0f, 1.0f);
+                spawnableIndex = Random.Range(0, mySpawnables.Count);
+                if (mySpawnables[spawnableIndex].probability >= rand)
+                    break;
+            }
+            
+            GameObject myEnemy = Instantiate(mySpawnables[spawnableIndex].specificObject) as GameObject;
             spawnPoint myPoint = mySpawns[Random.Range(0, mySpawns.Count)];
             myEnemy.transform.position = myPoint.originPoint.position;
-            myEnemy.GetComponent<Rigidbody2D>().velocity = (myPoint.directionPoint.position - myPoint.originPoint.position).normalized * Random.Range(speedMinVal, speedMaxVal);
+
+            float spd = 0;
+            foreach(SceneObject go in mySpawnables)
+            {
+                if(go.specificObject == myEnemy)
+                {
+                    spd = go.speed;
+                    break;
+                }
+            }
+
+            myEnemy.GetComponent<Rigidbody2D>().velocity = (myPoint.directionPoint.position - myPoint.originPoint.position).normalized * spd;
             elapsedTime = 0.0f;
         }
     }
@@ -43,8 +73,8 @@ public class Spawner : MonoBehaviour {
         public Transform directionPoint;
     }
 	
-    void Spawn()
+    void DecreaseSpawnTime()
     {
-
+        timeToNextSpawn -= spawnDecreaseTimeRatio;
     }
 }
