@@ -7,15 +7,18 @@ public class PlayerRange : MonoBehaviour
 
     public Transform RangeCenter;
 
-    private bool isPressing;
+    public bool isPressing;
 
     private GameObject Ammo;
     public GameObject distortion;
+    PlayerStatsController stats;
 
     // Use this for initialization
     void Start()
     {
+        stats = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerStatsController>();
         this.GetComponent<SpriteRenderer>().enabled = false;
+        this.GetComponent<PolygonCollider2D>().enabled = false;
         distortion.SetActive(false);
         isPressing = false;
         Ammo = null;
@@ -24,15 +27,26 @@ public class PlayerRange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Ammo != null)
+        {
+            stats.DecreaseHoldPower();
+        }
+        else if (isPressing)
+        {
+            stats.DecreasePower();
+        }
+
         if (Input.GetMouseButton(0))
         {
             isPressing = true;
             this.GetComponent<SpriteRenderer>().enabled = true;
+            this.GetComponent<PolygonCollider2D>().enabled = true;
             distortion.SetActive(true);
         }
         else
         {
             distortion.SetActive(false);
+            this.GetComponent<PolygonCollider2D>().enabled = false;
             this.GetComponent<SpriteRenderer>().enabled = false;
             isPressing = false;
             if(Ammo != null)

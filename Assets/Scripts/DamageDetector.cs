@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class DamageDetector : MonoBehaviour {
 
+    PlayerStatsController stats;
+
+    void Start()
+    {
+        stats = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerStatsController>();
+    }
+
     void OnCollisionEnter2D(Collision2D col)
     {
         if(col.gameObject.tag == "Mine")
         {
             Destroy(col.gameObject);
+            stats.life -= 20.0f;
         }
     }
 
@@ -17,13 +25,11 @@ public class DamageDetector : MonoBehaviour {
         if (col.gameObject.tag == "Bullet")
         {
             Destroy(col.gameObject);
+            stats.life -= 5.0f;
         }
     }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+	
 	
 	// Update is called once per frame
 	void Update () {
