@@ -67,7 +67,6 @@ public class PlayerRange : MonoBehaviour {
     {
         if(collision.tag == "Items" && isPressing)
         {
-            Vector2 vec = collision.gameObject.transform.position - RangeCenter.position;
             if(Vector2.Distance(collision.gameObject.transform.position, RangeCenter.position) <= 0.8f)
             {
                 Destroy(collision.gameObject);
@@ -77,7 +76,6 @@ public class PlayerRange : MonoBehaviour {
 
         if (Ammo != null && isPressing)
         {
-            Vector2 vec = Ammo.transform.position - RangeCenter.position;
             if (Vector2.Distance(Ammo.transform.position, RangeCenter.position) <= 0.8f)
             {
                 Ammo.transform.position = RangeCenter.position;
