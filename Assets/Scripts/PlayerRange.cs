@@ -9,6 +9,8 @@ public class PlayerRange : MonoBehaviour
 
     public bool isPressing;
 
+    private bool isMine = false;
+
     private GameObject Ammo;
     public GameObject distortion;
     PlayerStatsController stats;
@@ -51,10 +53,19 @@ public class PlayerRange : MonoBehaviour
             isPressing = false;
             if(Ammo != null)
             {
-                Ammo.GetComponent<Expelir>().isFired = true;
+
+                if(!isMine)
+                {
+                    Ammo.GetComponent<Expelir>().isFired = true;
+                }
+                else
+                {
+                    Ammo.GetComponent<EnemyMovement>().isAmmo = false;
+                }
                 Vector2 vec = Ammo.transform.position - gameObject.transform.position;
                 Ammo.GetComponent<Rigidbody2D>().AddForce(vec * 45000);
                 Ammo = null;
+                isMine = false;
             }
             
         }
@@ -66,7 +77,13 @@ public class PlayerRange : MonoBehaviour
         {
             Ammo = null;
         }
-            
+        if (collision.tag == "Mine" && isPressing)
+        {
+            isMine = false;
+            collision.gameObject.GetComponent<EnemyMovement>().isAmmo = false;
+            Ammo = null;
+        }
+
     }
 
 
@@ -98,6 +115,26 @@ public class PlayerRange : MonoBehaviour
            {
                 Ammo.transform.position = RangeCenter.position;
            }
+
+        }
+
+        if (collision.tag == "Mine" && isPressing)
+        {
+            if (Ammo == null)
+            {
+                if (Vector2.Distance(collision.transform.position, gameObject.transform.position) <= 0.4f)
+                {
+                    collision.transform.position = RangeCenter.position;
+                    collision.gameObject.GetComponent<EnemyMovement>().isAmmo = true;
+                    isMine = true;
+                    Ammo = collision.gameObject;
+                }
+                collision.transform.position = Vector2.Lerp(collision.transform.position, gameObject.transform.position, 6 * Time.deltaTime);
+            }
+            else
+            {
+                Ammo.transform.position = RangeCenter.position;
+            }
 
         }
     }
