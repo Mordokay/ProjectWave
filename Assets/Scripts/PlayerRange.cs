@@ -53,11 +53,20 @@ public class PlayerRange : MonoBehaviour
             {
                 Ammo.GetComponent<Expelir>().isFired = true;
                 Vector2 vec = Ammo.transform.position - gameObject.transform.position;
-                Ammo.GetComponent<Rigidbody2D>().AddForce(vec * 10000);
+                Ammo.GetComponent<Rigidbody2D>().AddForce(vec * 15000);
                 Ammo = null;
             }
             
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Expelir" && isPressing)
+        {
+            Ammo = null;
+        }
+            
     }
 
 
