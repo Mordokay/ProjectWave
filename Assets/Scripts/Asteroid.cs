@@ -6,6 +6,7 @@ public class Asteroid : MonoBehaviour {
 
     public GameObject asteroidPrefab;
     public GameObject Expelir;
+    public GameObject Item;
 
     private Vector3 movePosition;
 
@@ -50,11 +51,27 @@ public class Asteroid : MonoBehaviour {
                 }
                 else
                 {
-                    Vector2 randomPos = Random.insideUnitCircle * 1;
-                    GameObject newAsteroid1 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                    if(Random.Range(0, 2) == 0)
+                    {
+                        Vector2 randomPos = Random.insideUnitCircle * 1;
+                        GameObject newAsteroid1 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                    }
+                    else
+                    {
+                        Vector2 randomPos = Random.insideUnitCircle * 1;
+                        GameObject newAsteroid1 = Instantiate(Item, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                    }
 
-                    randomPos = Random.insideUnitCircle * 1;
-                    GameObject newAsteroid2 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                    if (Random.Range(0, 2) == 0)
+                    {
+                        Vector2 randomPos = Random.insideUnitCircle * 1;
+                        GameObject newAsteroid2 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                    }
+                    else
+                    {
+                        Vector2 randomPos = Random.insideUnitCircle * 1;
+                        GameObject newAsteroid2 = Instantiate(Item, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                    }
 
                 }
 
