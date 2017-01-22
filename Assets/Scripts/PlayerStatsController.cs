@@ -53,16 +53,16 @@ public class PlayerStatsController : MonoBehaviour {
 
     void Update () {
 
+		if(score <= highScore) {
+
+			highScore = PlayerPrefs.GetInt("HighScore");
+		}
+		else {
+			PlayerPrefs.SetInt("HighScore",score);
+		}
+
         if(life <= 0)
         {
-            
-			if(score <= highScore) {
-
-				highScore = PlayerPrefs.GetInt("HighScore");
-			}
-			else {
-				PlayerPrefs.SetInt("HighScore",score);
-			}
 
 			Time.timeScale = 0.0f;
             panel.SetActive(true);
