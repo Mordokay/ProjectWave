@@ -15,4 +15,14 @@ public class UIController : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void Play()
+    {
+        SceneManager.LoadScene("MovementTest");
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
 }
