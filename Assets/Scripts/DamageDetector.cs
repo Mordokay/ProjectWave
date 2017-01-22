@@ -34,6 +34,10 @@ public class DamageDetector : MonoBehaviour {
             Destroy(col.gameObject);
             stats.life -= 10.0f;
         }
+        else if (col.gameObject.tag == "Asteroid")
+        {
+            stats.life -= 20.0f;
+        }
     }
 
     /*

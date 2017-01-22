@@ -30,7 +30,7 @@ public class Asteroid : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
-        if(collision.gameObject.tag == "Expelir" && collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 2.0f)
+        if((collision.gameObject.tag == "Expelir" || collision.gameObject.tag == "Mine") && collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 2.0f)
         {
             
             //float scale = transform.localScale.x * 0.8f;
