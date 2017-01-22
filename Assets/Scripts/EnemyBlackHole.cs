@@ -39,11 +39,11 @@ public class EnemyBlackHole : MonoBehaviour {
 			player.transform.position = Vector2.MoveTowards(player.transform.position, transform.position, 2 * Time.deltaTime);
 			player.transform.RotateAround(transform.position,Vector3.forward,50*Time.deltaTime);
 		}
-		else if(musicObject.GetComponent<AudioSource>().pitch < 1){
-			musicObject.GetComponent<AudioSource>().pitch += 0.2f * Time.deltaTime;
+		else if(musicObject.GetComponent<AudioSource>().pitch < 1 && Mathf.Abs(dist) < 8 && Mathf.Abs(dist) >= 4){
+			musicObject.GetComponent<AudioSource>().pitch += 0.3f * Time.deltaTime;
 		}
 
-        if(transform.position == player.position)
+		if(Mathf.Abs(dist) < 0.5)
         {
             stats.life = 0;
         }
