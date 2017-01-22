@@ -14,17 +14,20 @@ public class UIController : MonoBehaviour {
 
     void Start()
     {
-        if (PlayerPrefs.GetInt("muted") == 1)
+        if (Mutebutton != null)
         {
-            Mutebutton.image.overrideSprite = mutedButton;
-            muted = true;
-            AudioListener.pause = true;
-        }
-        else
-        {
-            Mutebutton.image.overrideSprite = unmutedButton;
-            muted = false;
-            AudioListener.pause = false;
+            if (PlayerPrefs.GetInt("muted") == 1)
+            {
+                Mutebutton.image.overrideSprite = mutedButton;
+                muted = true;
+                AudioListener.pause = true;
+            }
+            else
+            {
+                Mutebutton.image.overrideSprite = unmutedButton;
+                muted = false;
+                AudioListener.pause = false;
+            }
         }
         Time.timeScale = 1.0f;
     }
