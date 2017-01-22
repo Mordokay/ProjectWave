@@ -11,8 +11,13 @@ public class EnemyBlackHole : MonoBehaviour {
 
     public Transform wave;
 
-	// Use this for initialization
-	void Start () {
+    Vector3 originalCameraPosition;
+
+    public Camera mainCamera;
+
+    // Use this for initialization
+    void Start () {
+        originalCameraPosition = mainCamera.gameObject.transform.position;
         stats = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerStatsController>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
 		musicObject = GameObject.Find("Music");
@@ -29,21 +34,34 @@ public class EnemyBlackHole : MonoBehaviour {
 		}
 	}
 
+    void Shake()
+    {
+        float shakeAmt = 0.5f;
+        float quakeAmt = Random.value * shakeAmt * 2 - shakeAmt;
+        Vector3 pp = mainCamera.transform.position;
+        pp.y += quakeAmt; // can also add to x and/or z
+        mainCamera.transform.position = pp;
+    }
+
 	// Update is called once per frame
 	void Update () {
-
-		float dist = Vector2.Distance(this.transform.position, player.position);
-		if(Mathf.Abs(dist) < 4 && musicObject.GetComponent<AudioSource>().pitch > 0.8){
-			
-			musicObject.GetComponent<AudioSource>().pitch -= 0.1f * Time.deltaTime;
-			player.transform.position = Vector2.MoveTowards(player.transform.position, transform.position, 2 * Time.deltaTime);
+        
+        float dist = Vector2.Distance(this.transform.position, player.position);
+		if(Mathf.Abs(dist) < 4){
+			if (musicObject.GetComponent<AudioSource>().pitch > 0.8)
+			    musicObject.GetComponent<AudioSource>().pitch -= 0.1f * Time.deltaTime;
+            Shake();
+            player.transform.position = Vector2.MoveTowards(player.transform.position, transform.position, 2 * Time.deltaTime);
 			player.transform.RotateAround(transform.position,Vector3.forward,50*Time.deltaTime);
 		}
-		else if(musicObject.GetComponent<AudioSource>().pitch < 1 && Mathf.Abs(dist) < 8 && Mathf.Abs(dist) >= 4){
-			musicObject.GetComponent<AudioSource>().pitch += 0.3f * Time.deltaTime;
-		}
-
-		if(Mathf.Abs(dist) < 0.5)
+        else
+        {
+            originalCameraPosition = mainCamera.gameObject.transform.position;
+            if (musicObject.GetComponent<AudioSource>().pitch < 1 && Mathf.Abs(dist) < 8)
+                musicObject.GetComponent<AudioSource>().pitch += 0.3f * Time.deltaTime;
+        }
+		
+        if (Mathf.Abs(dist) < 0.5)
         {
             stats.life = 0;
         }
