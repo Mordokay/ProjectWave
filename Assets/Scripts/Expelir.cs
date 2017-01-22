@@ -17,25 +17,29 @@ public class Expelir : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "ShooterEnemy")
+        if (col.gameObject.tag == "ShooterEnemy" && isFired)
         {
             Destroy(col.gameObject);
             stats.score += 1500;
+            isFired = false;
         }
-        else if (col.gameObject.tag == "Bullet")
+        else if (col.gameObject.tag == "Bullet" && isFired)
         {
             Destroy(col.gameObject);
-            stats.score += 650;
+            //stats.score += 650;
+            isFired = false;
         }
-        else if (col.gameObject.tag == "Mine")
+        else if (col.gameObject.tag == "Mine" && isFired)
         {
             Destroy(col.gameObject);
             stats.score += 900;
+            isFired = false;
         }
-        else if (col.gameObject.tag == "Expelir")
+        else if (col.gameObject.tag == "Expelir" && isFired)
         {
             Destroy(col.gameObject);
-            stats.score += 300;
+            //stats.score += 300;
+            isFired = false;
         }
         GameObject myParticle = Instantiate(explosionParticle);
         myParticle.transform.position = col.contacts[0].point;
