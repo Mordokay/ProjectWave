@@ -8,6 +8,10 @@ public class DamageDetector : MonoBehaviour {
 
     GameObject explosionParticle;
 
+
+	//sons:
+	public AudioSource som;
+
     void Start()
     {
         stats = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerStatsController>();
@@ -38,6 +42,8 @@ public class DamageDetector : MonoBehaviour {
         {
             stats.life -= 20.0f;
         }
+
+		som.Play();
     }
 
     /*

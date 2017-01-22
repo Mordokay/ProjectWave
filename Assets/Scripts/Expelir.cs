@@ -8,6 +8,9 @@ public class Expelir : MonoBehaviour {
     PlayerStatsController stats;
     private GameObject explosionParticle;
 
+	//sons:
+	public AudioSource som;
+
     // Use this for initialization
     void Start () {
         stats = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerStatsController>();
@@ -21,6 +24,7 @@ public class Expelir : MonoBehaviour {
         {
             Destroy(col.gameObject);
             stats.score += 1500;
+			som.Play();
             isFired = false;
         }
         else if (col.gameObject.tag == "Bullet" && isFired)
@@ -33,6 +37,7 @@ public class Expelir : MonoBehaviour {
         {
             Destroy(col.gameObject);
             stats.score += 900;
+			som.Play();
             isFired = false;
         }
         else if (col.gameObject.tag == "Expelir" && isFired)
