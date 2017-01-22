@@ -11,13 +11,8 @@ public class EnemyBlackHole : MonoBehaviour {
 
     public Transform wave;
 
-    Vector3 originalCameraPosition;
-
-    public Camera mainCamera;
-
     // Use this for initialization
     void Start () {
-        originalCameraPosition = mainCamera.gameObject.transform.position;
         stats = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerStatsController>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
 		musicObject = GameObject.Find("Music");
@@ -38,9 +33,9 @@ public class EnemyBlackHole : MonoBehaviour {
     {
         float shakeAmt = 0.5f;
         float quakeAmt = Random.value * shakeAmt * 2 - shakeAmt;
-        Vector3 pp = mainCamera.transform.position;
+        Vector3 pp = Camera.main.transform.position;
         pp.y += quakeAmt; // can also add to x and/or z
-        mainCamera.transform.position = pp;
+        Camera.main.transform.position = pp;
     }
 
 	// Update is called once per frame
@@ -50,14 +45,13 @@ public class EnemyBlackHole : MonoBehaviour {
 		if(Mathf.Abs(dist) < 4){
 			if (musicObject.GetComponent<AudioSource>().pitch > 0.8)
 			    musicObject.GetComponent<AudioSource>().pitch -= 0.1f * Time.deltaTime;
-            Shake();
             player.transform.position = Vector2.MoveTowards(player.transform.position, transform.position, 2 * Time.deltaTime);
 			player.transform.RotateAround(transform.position,Vector3.forward,50*Time.deltaTime);
-		}
-        else
+            Shake();
+        }
+        else if(Mathf.Abs(dist) < 6)
         {
-            originalCameraPosition = mainCamera.gameObject.transform.position;
-            if (musicObject.GetComponent<AudioSource>().pitch < 1 && Mathf.Abs(dist) < 8)
+            if (musicObject.GetComponent<AudioSource>().pitch < 1)
                 musicObject.GetComponent<AudioSource>().pitch += 0.3f * Time.deltaTime;
         }
 		
