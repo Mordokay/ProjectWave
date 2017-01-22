@@ -43,7 +43,7 @@ public class MineController : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D col)
     {
         //TODO Expelir should make a rock particle explosion
-        if (col.gameObject.tag == "ShooterEnemy" || col.gameObject.tag == "Bullet" || col.gameObject.tag == "Mine" || col.gameObject.tag == "Expelir")
+        if (col.gameObject.tag == "ShooterEnemy" || col.gameObject.tag == "Bullet" || col.gameObject.tag == "Mine" || col.gameObject.tag == "Expelir" || col.gameObject.tag == "Asteroid")
         {
             Destroy(col.gameObject);
             GameObject myParticle = Instantiate(explosionParticle);
