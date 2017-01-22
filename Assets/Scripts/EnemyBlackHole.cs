@@ -7,11 +7,14 @@ public class EnemyBlackHole : MonoBehaviour {
 	public GameObject musicObject;
 	public Transform player;
 
-	public Transform wave;
+    private PlayerStatsController stats;
+
+    public Transform wave;
 
 	// Use this for initialization
 	void Start () {
-		player = GameObject.FindGameObjectWithTag("Player").transform;
+        stats = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerStatsController>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
 		musicObject = GameObject.Find("Music");
 		musicObject.GetComponent<AudioSource>().pitch = 1;
 
@@ -39,6 +42,11 @@ public class EnemyBlackHole : MonoBehaviour {
 		else if(musicObject.GetComponent<AudioSource>().pitch < 1){
 			musicObject.GetComponent<AudioSource>().pitch += 0.2f * Time.deltaTime;
 		}
+
+        if(transform.position == player.position)
+        {
+            stats.life = 0;
+        }
 
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerStatsController : MonoBehaviour {
@@ -17,6 +18,8 @@ public class PlayerStatsController : MonoBehaviour {
     public GameObject healthBar;
     public GameObject powerBar;
     public Text scoreText;
+
+    public GameObject panel;
 
     public bool powerOnCooldown;
 
@@ -45,6 +48,13 @@ public class PlayerStatsController : MonoBehaviour {
     }
 
     void Update () {
+
+        if(life <= 0)
+        {
+            Time.timeScale = 0.0f;
+            panel.SetActive(true);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
         if(power > 25)
         {
