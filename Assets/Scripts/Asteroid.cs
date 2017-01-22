@@ -38,30 +38,33 @@ public class Asteroid : MonoBehaviour {
             life--;
             if (life <= 0)
             {
-               
-                    if(Random.Range(0, 2) == 0)
+                GameObject newAsteroid1 = null;
+                GameObject newAsteroid2 = null;
+
+                    if (Random.Range(0, 2) == 0)
                     {
                         Vector2 randomPos = Random.insideUnitCircle * 1;
-                        GameObject newAsteroid1 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                        newAsteroid1 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
                     }
                     else
                     {
                         Vector2 randomPos = Random.insideUnitCircle * 1;
-                        GameObject newAsteroid1 = Instantiate(Item, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                        newAsteroid1 = Instantiate(Item, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
                     }
 
                     if (Random.Range(0, 2) == 0)
                     {
                         Vector2 randomPos = Random.insideUnitCircle * 1;
-                        GameObject newAsteroid2 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                        newAsteroid2 = Instantiate(Expelir, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
                     }
                     else
                     {
                         Vector2 randomPos = Random.insideUnitCircle * 1;
-                        GameObject newAsteroid2 = Instantiate(Item, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
+                        newAsteroid2 = Instantiate(Item, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
                     }
 
-                
+                newAsteroid1.GetComponent<Rigidbody2D>().velocity = new Vector2(-gameObject.GetComponent<Rigidbody2D>().velocity.x, -gameObject.GetComponent<Rigidbody2D>().velocity.y);
+                newAsteroid2.GetComponent<Rigidbody2D>().velocity = new Vector2(gameObject.GetComponent<Rigidbody2D>().velocity.x, -gameObject.GetComponent<Rigidbody2D>().velocity.y);
 
 
                 Destroy(gameObject);
