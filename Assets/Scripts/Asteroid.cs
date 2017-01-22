@@ -32,25 +32,13 @@ public class Asteroid : MonoBehaviour {
         
         if((collision.gameObject.tag == "Expelir" || collision.gameObject.tag == "Mine") && collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 2.0f)
         {
-            
+
             //float scale = transform.localScale.x * 0.8f;
             //transform.localScale = new Vector3(scale, scale, scale);
-            if(life < 1)
+            life--;
+            if (life <= 0)
             {
-                if (transform.localScale.x * 0.6f > 0.5f)
-                {
-                    Vector2 randomPos = Random.insideUnitCircle * 1;
-                    GameObject newAsteroid1 = Instantiate(asteroidPrefab, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
-                    float scale = transform.localScale.x * 0.6f;
-                    newAsteroid1.transform.localScale = new Vector3(scale, scale, scale);
-
-                    randomPos = Random.insideUnitCircle * 1;
-                    GameObject newAsteroid2 = Instantiate(asteroidPrefab, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
-                    scale = transform.localScale.x * 0.6f;
-                    newAsteroid2.transform.localScale = new Vector3(scale, scale, scale);
-                }
-                else
-                {
+               
                     if(Random.Range(0, 2) == 0)
                     {
                         Vector2 randomPos = Random.insideUnitCircle * 1;
@@ -73,15 +61,12 @@ public class Asteroid : MonoBehaviour {
                         GameObject newAsteroid2 = Instantiate(Item, transform.position + new Vector3(randomPos.x, randomPos.y, 0.0f), transform.rotation);
                     }
 
-                }
+                
 
 
                 Destroy(gameObject);
             }
-            else
-            {
-                life--;
-            }
+            
         }
     }
 }
