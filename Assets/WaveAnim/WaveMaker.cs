@@ -16,7 +16,7 @@ public class WaveMaker : MonoBehaviour {
 
 	IEnumerator Tempo1(){
 		while(animar){
-			yield return new WaitForSeconds(0.3f);
+			yield return new WaitForSeconds(0.2f);
 			Transform newWave = Instantiate(wave, transform.position, transform.rotation) as Transform;
 			newWave.gameObject.GetComponent<wave1>().emFrente = true;
 		}

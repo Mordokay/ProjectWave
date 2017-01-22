@@ -43,7 +43,7 @@ public class EnemyDamage : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.gameObject.tag == "Expelir" && collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 2.0f)
+        if (collision.gameObject.tag == "Expelir")
         {
             life--;
             if (life <= 0)
