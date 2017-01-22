@@ -15,9 +15,13 @@ public class PlayerStatsController : MonoBehaviour {
 
     public int score;
 
+	// high score
+	public int highScore;
+
     public GameObject healthBar;
     public GameObject powerBar;
     public Text scoreText;
+	public Text highScoreText;
 
     public GameObject panel;
 
@@ -49,9 +53,18 @@ public class PlayerStatsController : MonoBehaviour {
 
     void Update () {
 
+		if(score <= highScore) {
+
+			highScore = PlayerPrefs.GetInt("HighScore");
+		}
+		else {
+			PlayerPrefs.SetInt("HighScore",score);
+		}
+
         if(life <= 0)
         {
-            Time.timeScale = 0.0f;
+
+			Time.timeScale = 0.0f;
             panel.SetActive(true);
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
@@ -62,6 +75,9 @@ public class PlayerStatsController : MonoBehaviour {
         }
 
         scoreText.text = "SCORE: " + score;
+		highScoreText.text = "HIGHSCORE: " + highScore;
+
+		highScore = PlayerPrefs.GetInt("HighScore");
 
         healthBar.GetComponent<Image>().fillAmount = life / 100.0f;
         powerBar.GetComponent<Image>().fillAmount = power / 100.0f;

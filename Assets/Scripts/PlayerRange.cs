@@ -15,6 +15,14 @@ public class PlayerRange : MonoBehaviour
     public GameObject distortion;
     PlayerStatsController stats;
 
+
+	//sons:
+	public AudioClip somAbsorver;
+	public AudioClip somRepulsar;
+	public AudioClip somGem;
+	public AudioSource som;
+
+
     // Use this for initialization
     void Start()
     {
@@ -24,6 +32,9 @@ public class PlayerRange : MonoBehaviour
         distortion.SetActive(false);
         isPressing = false;
         Ammo = null;
+
+		//som:
+		som = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -47,6 +58,7 @@ public class PlayerRange : MonoBehaviour
             this.GetComponent<SpriteRenderer>().enabled = true;
             this.GetComponent<PolygonCollider2D>().enabled = true;
             distortion.SetActive(true);
+
         }
         else
         {
@@ -58,6 +70,11 @@ public class PlayerRange : MonoBehaviour
             isPressing = false;
             if(Ammo != null)
             {
+
+				som.clip = somRepulsar;
+				som.pitch = 1.4f;
+				som.volume = 1;
+				som.Play();
 
                 if(!isMine)
                 {
@@ -95,11 +112,15 @@ public class PlayerRange : MonoBehaviour
     {
         if (collision.tag == "Items" && isPressing)
         {
-            
             if (Vector2.Distance(collision.gameObject.transform.position, gameObject.transform.position) <= 1.0f)
             {
                 Destroy(collision.gameObject);
                 stats.score += 500;
+
+				som.clip = somGem;
+				som.pitch = 1;
+				som.volume = 0.4f;
+				som.Play();
             }
             collision.transform.position = Vector2.Lerp(collision.transform.position, gameObject.transform.position, 6 * Time.deltaTime);
         }
@@ -112,6 +133,11 @@ public class PlayerRange : MonoBehaviour
                 {
                     collision.transform.position = RangeCenter.position;
                     Ammo = collision.gameObject;
+
+					som.clip = somAbsorver;
+					som.pitch = 1.4f;
+					som.volume = 1;
+					som.Play();
                 }
                 collision.transform.position = Vector2.Lerp(collision.transform.position, gameObject.transform.position, 6 * Time.deltaTime);
            }
@@ -132,6 +158,11 @@ public class PlayerRange : MonoBehaviour
                     collision.gameObject.GetComponent<MineController>().isAmmo = true;
                     isMine = true;
                     Ammo = collision.gameObject;
+
+					som.clip = somAbsorver;
+					som.pitch = 1.4f;
+					som.volume = 1;
+					som.Play();
                 }
                 collision.transform.position = Vector2.Lerp(collision.transform.position, gameObject.transform.position, 6 * Time.deltaTime);
             }
